@@ -101,5 +101,4 @@ all_params = { f"{i}_{name}": param.copy()
                for name, param in layer.parameters.items() }
 with open("iris_params.pkl","wb") as f:
     pickle.dump(all_params, f)
-print("✅ Saved parameter dict to iris_params.pkl")
 
