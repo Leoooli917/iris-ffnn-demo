@@ -6,7 +6,7 @@ from neural_networks.datasets import initialize_dataset
 from neural_networks.layers import initialize_layer
 import pickle
 
-np.random.seed(189)
+np.random.seed(1111)
 
 grid = [
     {"lr": 0.1,   "hidden": 10},
@@ -96,15 +96,10 @@ for r in results:
     print(f"lr={r['lr']:<8} hidden={r['hidden']:<3}  test_acc={r['test_accuracy']:.4f}")
 print(f"\nBest setting: lr={best['lr']}, hidden={best['hidden']}  → test_acc={best['test_accuracy']:.4f}")
 
-plt.figure(figsize=(8,5))
-plt.plot(best["loss_curve"], label=f"lr={best['lr']}, hidden={best['hidden']}")
-plt.xlabel("Minibatch iteration")
-plt.ylabel("Training loss")
-plt.title("Training loss curve for best Iris run")
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-with open("iris_ffnn.pkl","wb") as f:
-    pickle.dump(model.state_dict(), f)
+all_params = { f"{i}_{name}": param.copy()
+               for i, layer in enumerate(model.layers)
+               for name, param in layer.parameters.items() }
+with open("iris_params.pkl","wb") as f:
+    pickle.dump(all_params, f)
+print("✅ Saved parameter dict to iris_params.pkl")
 
